@@ -1,2 +1,2 @@
-# Kzzakuypbot-
+# Kzzakupbot-
 Мониторинг тендеров в Казахстане 
