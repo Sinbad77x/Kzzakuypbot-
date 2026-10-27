@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const val = el.value.trim();
                 const numVal = Number(val);
                 
-                // Проверка на валидность обязательных полей и положительный курс
                 if (el.hasAttribute('required') && (val === '' || isNaN(numVal) || numVal < 0 || (id === 'rate' && numVal <= 0))) {
                     el.classList.add('is-invalid');
                     hasError = true;
@@ -57,21 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const currencySelect = document.getElementById('currency');
-    if (currencySelect) {
-        currencySelect.addEventListener('change', updateUI);
-    }
+    if (currencySelect) currencySelect.addEventListener('change', updateUI);
 
     const regionSelect = document.getElementById('region');
-    if (regionSelect) {
-        regionSelect.addEventListener('change', updateUI);
-    }
+    if (regionSelect) regionSelect.addEventListener('change', updateUI);
 
     updateUI();
 });
 
 function clearResultsDisplay() {
-    const outputIds = ['res-purchase', 'res-duty', 'res-vat', 'res-total', 'res-unit', 'res-revenue', 'res-margin'];
-    outputIds.forEach(id => {
+    ['res-purchase', 'res-duty', 'res-vat', 'res-total', 'res-unit', 'res-revenue', 'res-margin'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.textContent = '—';
     });
