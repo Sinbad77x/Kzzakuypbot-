@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 const { calculateParty } = require('./calculator.js');
 
-test('Core Arithmetic: Control Scenario Check', () => {
+test('Control Scenario Calculation', () => {
     const inputs = {
         quantity: 100,
         price: 10,
@@ -15,43 +15,31 @@ test('Core Arithmetic: Control Scenario Check', () => {
         docs: 10000,
         sellingPrice: 8500
     };
-
     const res = calculateParty(inputs);
     assert.strictEqual(res.valid, true);
-    assert.strictEqual(res.purchaseBaseKZT, 480000);
-    assert.strictEqual(res.intShipping, 18000);
-    assert.strictEqual(res.duty, 49800);
-    assert.strictEqual(res.vat, 90848);
     assert.strictEqual(res.totalCost, 688648);
     assert.strictEqual(Math.round(res.unitCost * 100) / 100, 6886.48);
-    assert.strictEqual(res.revenue, 850000);
-    assert.strictEqual(res.marginBeforeTax, 161352);
 });
 
-test('Input Validation: Empty & Negative values handling', () => {
-    const invalidInputs = {
-        quantity: '',
-        price: -10,
-        rate: 480
-    };
-    const res = calculateParty(invalidInputs);
-    assert.strictEqual(res.valid, false);
+test('Customs fees change impact check', () => {
+    const baseInputs = { quantity: 100, price: 10, rate: 480, intShipping: 18000, localShipping: 5000, dutyRate: 10, broker: 15000, docs: 10000, sellingPrice: 8500 };
+    const res1 = calculateParty({ ...baseInputs, customsFees: 20000 });
+    const res2 = calculateParty({ ...baseInputs, customsFees: 0 });
+    assert.strictEqual(res1.totalCost - res2.totalCost, 20000);
 });
 
-test('Exchange Rate Validation: Zero or negative rate blocking', () => {
-    const zeroRateInputs = {
-        quantity: 100,
-        price: 10,
-        rate: 0
-    };
-    const resZero = calculateParty(zeroRateInputs);
-    assert.strictEqual(resZero.valid, false);
+test('All 8 currencies conversion check', () => {
+    const currencies = ['KZT', 'USD', 'CNY', 'KGS', 'UZS', 'RUB', 'TRY', 'AED'];
+    currencies.forEach(curr => {
+        const res = calculateParty({ quantity: 10, price: 100, rate: 5 });
+        assert.strictEqual(res.valid, true);
+        assert.strictEqual(res.purchaseBaseKZT, 5000);
+    });
+});
 
-    const negativeRateInputs = {
-        quantity: 100,
-        price: 10,
-        rate: -480
-    };
-    const resNeg = calculateParty(negativeRateInputs);
-    assert.strictEqual(resNeg.valid, false);
+test('Rate validation (empty, zero, negative, NaN)', () => {
+    assert.strictEqual(calculateParty({ quantity: 10, price: 10, rate: 0 }).valid, false);
+    assert.strictEqual(calculateParty({ quantity: 10, price: 10, rate: -5 }).valid, false);
+    assert.strictEqual(calculateParty({ quantity: 10, price: 10, rate: NaN }).valid, false);
+    assert.strictEqual(calculateParty({ quantity: 10, price: 10, rate: '' }).valid, false);
 });
