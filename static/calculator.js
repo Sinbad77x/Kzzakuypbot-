@@ -6,7 +6,7 @@ function calculateParty(inputs) {
     const price = parseFloat(inputs.price);
     const rate = parseFloat(inputs.rate);
     
-    // Строгая валидация: количество и курс должны быть строго больше 0
+    // Строгая валидация обязательных полей и защита от нулевого/отрицательного курса
     if (isNaN(qty) || qty <= 0 || isNaN(price) || price < 0 || isNaN(rate) || rate <= 0) {
         return { error: "Invalid parameters: quantity and rate must be > 0", valid: false };
     }
