@@ -1,1 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бесплатное обучение тендерам — Kzzakupbot Hub</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="nav-links-top">
+                <a href="/">Калькулятор</a>
+                <a href="/education" class="active-nav">Обучение тендерам</a>
+            </div>
+            <h1>Бесплатное обучение тендерам</h1>
+            <p class="subtitle">Изучайте государственные и коммерческие закупки Казахстана, подготовку заявок и основы работы поставщика.</p>
+        </header>
+
+        <main class="education-container">
+            <!-- Блок 1: Каталог образовательных ресурсов -->
+            <section class="card">
+                <h2>📚 Каталог образовательных ресурсов</h2>
+                <p class="section-desc">Подборка проверенных курсов и платформ для изучения тендерной деятельности и управления бизнесом.</p>
+                
+                <div class="resources-grid">
+                    {% for res in resources %}
+                    <div class="resource-card">
+                        <div class="resource-meta">
+                            <span class="badge-platform">{{ res.platform }}</span>
+                            <span class="badge-status">{{ res.status }}</span>
+                        </div>
+                        <h3>{{ res.title }}</h3>
+                        <p>{{ res.description }}</p>
+                        <div class="resource-footer">
+                            <span class="verified-date">Проверено: {{ res.verified_date }}</span>
+                            <a href="{{ res.url }}" target="_blank" class="btn-secondary">Открыть ресурс</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Блок 2: Структура обучения -->
+            <section class="card">
+                <h2>📖 Структура обучения</h2>
+                <p class="section-desc">Основные тематические направления, которые необходимо освоить начинающему поставщику.</p>
+                
+                <div class="modules-grid">
+                    {% for mod in modules %}
+                    <div class="module-item">
+                        <h3>{{ mod.title }}</h3>
+                        <ul>
+                            {% for topic in mod.topics %}
+                            <li>{{ topic }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Блок 3: Практический маршрут начинающего поставщика -->
+            <section class="card practice-card">
+                <h2>🚀 Практический маршрут начинающего поставщика</h2>
+                <p class="section-desc">Пошаговый план действий перед участием в закупке:</p>
+                
+                <ol class="practice-steps">
+                    {% for step in practice_steps %}
+                    <li><span>{{ loop.index }}</span> {{ step }}</li>
+                    {% endfor %}
+                </ol>
+
+                <div class="notice-box">
+                    ⚠️ <strong>Обратите внимание:</strong> прохождение обучения не гарантирует допуск к закупке или победу в тендере. Требования всегда необходимо проверять по конкретному объявлению и действующим правилам площадки.
+                </div>
+            </section>
+
+            <!-- Блок 4: Переход к инструментам -->
+            <section class="card action-box-card">
+                <h2>⚙️ Инструменты для работы</h2>
+                <p>После изучения теории переходите к предварительному расчёту экономики сделки.</p>
+                <div class="action-buttons">
+                    <a href="/" class="btn-primary">Перейти к калькулятору себестоимости</a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p><strong>Важно:</strong> материалы носят информационный характер. Прохождение курсов не является гарантией победы в закупках.</p>
+            <p>&copy; 2026 Kzzakupbot Hub. Практические инструменты для принятия решений в закупках и поставках.</p>
+        </footer>
+    </div>
+</body>
+</html>
 
