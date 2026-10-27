@@ -16,7 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = document.getElementById(id);
             if (el) {
                 const val = el.value.trim();
-                if (el.hasAttribute('required') && (val === '' || isNaN(val) || Number(val) < 0)) {
+                const numVal = Number(val);
+                
+                // Проверка на валидность обязательных полей и положительный курс
+                if (el.hasAttribute('required') && (val === '' || isNaN(numVal) || numVal < 0 || (id === 'rate' && numVal <= 0))) {
                     el.classList.add('is-invalid');
                     hasError = true;
                 } else {
@@ -37,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const result = calculateParty(inputs);
         if (!result.valid) {
+            if (errorBanner) errorBanner.style.display = 'block';
             clearResultsDisplay();
             return;
         }
@@ -82,4 +86,3 @@ function renderResults(res) {
     document.getElementById('res-revenue').textContent = res.revenue.toLocaleString('ru-RU') + ' ₸';
     document.getElementById('res-margin').textContent = res.marginBeforeTax.toLocaleString('ru-RU') + ' ₸';
 }
-
