@@ -1,4 +1,16 @@
-/* Основные стили и сброс */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-color: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #cbd5e1;
+    --error-bg: #fee2e2;
+    --error-text: #991b1b;
+    --highlight-bg: #f1f5f9;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,132 +19,179 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f6f9;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     line-height: 1.5;
-    padding: 10px;
+    padding: 20px;
 }
 
 .container {
-    max-width: 600px;
+    max-width: 1200px;
     margin: 0 auto;
-    background: #ffffff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-h1 {
-    font-size: 1.25rem;
-    margin-bottom: 15px;
+header {
     text-align: center;
-    color: #1a1a1a;
+    margin-bottom: 30px;
 }
 
-h2 {
-    font-size: 1.1rem;
+header h1 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+header .subtitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
     margin-bottom: 10px;
-    color: #2c3e50;
 }
 
-/* Формы и поля ввода */
+header .description {
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.alert {
+    padding: 12px 16px;
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--bg-color);
+    padding-bottom: 10px;
+}
+
 .form-group {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 label {
     display: block;
     font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: #444;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text-color);
 }
 
-input[type="number"],
-select {
+input, select {
     width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    background-color: #fff;
+    font-size: 1rem;
+    outline: none;
     transition: border-color 0.2s;
 }
 
-input[type="number"]:focus,
-select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+input:focus, select:focus {
+    border-color: var(--primary-color);
 }
 
-input.is-invalid {
-    border-color: #dc3545;
-    background-color: #fff8f8;
-}
-
-/* Баннер ошибок */
-.error-banner {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
     border-radius: 6px;
-    font-size: 0.85rem;
-    margin-bottom: 15px;
-    border: 1px solid #f5c6cb;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
 }
 
-/* Панель результатов */
-.results-panel {
-    margin-top: 20px;
-    padding: 15px;
-    background: #e9ecef;
-    border-radius: 8px;
+.btn-primary:hover {
+    background-color: var(--primary-hover);
 }
 
-.result-row {
+.results-list, .platforms-list {
+    list-style: none;
+}
+
+.results-list li {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
-    font-size: 0.95rem;
-    border-bottom: 1px solid #dee2e6;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--bg-color);
 }
 
-.result-row:last-child {
+.results-list li.highlight {
+    background-color: var(--highlight-bg);
+    padding: 12px 10px;
+    border-radius: 6px;
+    margin-top: 10px;
     border-bottom: none;
-    font-weight: bold;
-    color: #004085;
+    font-size: 1.05rem;
 }
 
-/* Секция ссылок на тендерные площадки */
-.tender-links-section {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
-}
-
-.tender-links-section h3 {
-    font-size: 1rem;
+.platforms-list li {
     margin-bottom: 10px;
 }
 
-.tender-links-section ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.tender-links-section li {
-    margin-bottom: 8px;
-}
-
-.tender-links-section a {
-    color: #007bff;
+.platforms-list a {
+    display: block;
+    padding: 10px 14px;
+    background-color: var(--bg-color);
+    color: var(--primary-color);
     text-decoration: none;
-    font-size: 0.9rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-.tender-links-section a:hover {
-    text-decoration: underline;
+.platforms-list a:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+footer p {
+    margin-bottom: 10px;
 }
