@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kzzakupbot Hub — Калькулятор и проверка</title>
+    <title>Kzzakupbot Hub — Калькулятор и тендеры</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
         <h1>Kzzakupbot Hub — Калькулятор импорта и себестоимости</h1>
         
         <div id="calc-error-banner" class="error-banner" style="display: none;">
-            ⚠️ Заполните обязательные поля корректными положительными значениями.
+            ⚠️ Проверьте правильность заполнения полей: курс валюты должен быть больше нуля, а обязательные поля заполнены.
         </div>
 
         <form id="calculator-form">
@@ -26,7 +26,7 @@
             </div>
 
             <div class="form-group">
-                <label for="currency">Валюта:</label>
+                <label for="currency">Валюта закупки:</label>
                 <select id="currency">
                     <option value="KZT">KZT — Казахстанский тенге</option>
                     <option value="USD" selected>USD — Доллар США</option>
@@ -80,21 +80,20 @@
             </div>
 
             <div class="form-group">
-                <label for="region">Регион Казахстана:</label>
+                <label for="region">Регион поиска / поставок:</label>
                 <select id="region">
                     <option value="all">Весь Казахстан</option>
                     <option value="astana">г. Астана</option>
                     <option value="almaty">г. Алматы</option>
                     <option value="shymkent">г. Шымкент</option>
-                    <option value="abay">Абайская область</option>
+                    <option value="abay">Область Абай</option>
                     <option value="akmola">Акмолинская область</option>
                     <option value="aktobe">Актюбинская область</option>
                     <option value="almaty_reg">Алматинская область</option>
-                    <option value="atyrau">Атырауская область</option>
-                    <option value="east_kz">Восточно-Казахстанская область</option>
-                    <option value="zhambyl">Жамбылская область</option>
-                    <option value="jetysu">Жетысуская область</option>
+                    <option value="atyrau">Aтырауская область</option>
                     <option value="west_kz">Западно-Казахстанская область</option>
+                    <option value="zhambyl">Жамбылская область</option>
+                    <option value="jetysu">Область Жетісу</option>
                     <option value="karaganda">Карагандинская область</option>
                     <option value="kostanay">Костанайская область</option>
                     <option value="kyzylorda">Кызылординская область</option>
@@ -102,7 +101,8 @@
                     <option value="pavlodar">Павлодарская область</option>
                     <option value="north_kz">Северо-Казахстанская область</option>
                     <option value="turkistan">Туркестанская область</option>
-                    <option value="ulytau">Улытауская область</option>
+                    <option value="ulytau">Область Ұлытау</option>
+                    <option value="east_kz">Восточно-Казахстанская область</option>
                 </select>
             </div>
         </form>
@@ -116,6 +116,19 @@
             <div class="result-row"><span>Себестоимость единицы:</span> <strong id="res-unit">—</strong></div>
             <div class="result-row"><span>Выручка:</span> <strong id="res-revenue">—</strong></div>
             <div class="result-row"><span>Маржа до налогов:</span> <strong id="res-margin">—</strong></div>
+        </div>
+
+        <div class="tender-links-section" style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+            <h3>🌐 Официальные площадки тендеров и закупок</h3>
+            <ul>
+                <li><a href="https://goszakup.gov.kz/" target="_blank">Государственные закупки РК</a></li>
+                <li><a href="https://procurement.gov.kz/ru" target="_blank">Единая платформа закупок</a></li>
+                <li><a href="https://zakup.sk.kz/" target="_blank">Самрук-Қазына</a></li>
+                <li><a href="https://sk-pharmacy.ecc.kz/ru" target="_blank">СК-Фармация</a></li>
+                <li><a href="https://fms.ecc.kz/ru" target="_blank">Закупки медицинских услуг (ФСМС)</a></li>
+                <li><a href="https://mitwork.kz/" target="_blank">MITWORK</a></li>
+                <li><a href="https://caspytender.kz/" target="_blank">Caspytender</a></li>
+            </ul>
         </div>
     </div>
 
