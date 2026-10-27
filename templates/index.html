@@ -3,125 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kzzakupbot Hub — Мониторинг тендеров и калькулятор РК</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .hero-section { background: linear-gradient(135deg, #0d6efd, #0b5ed7); color: white; padding: 2rem 1rem; border-radius: 0 0 1.5rem 1.5rem; margin-bottom: 2rem; }
-        .card { border: none; border-radius: 1rem; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); margin-bottom: 1.5rem; }
-        .btn-primary { border-radius: 0.75rem; padding: 0.6rem 1.5rem; }
-        .form-control, .form-select { border-radius: 0.75rem; padding: 0.6rem 1rem; }
-        .result-box { background: #e8f4fd; border-left: 5px solid #0d6efd; padding: 1rem; border-radius: 0.5rem; }
-    </style>
+    <title>Kzzakupbot Hub — Калькулятор и проверка</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-
-    <div class="hero-section text-center">
-        <div class="container">
-            <h1><i class="fa-solid fa-landmark-dome"></i> Kzzakupbot Hub</h1>
-            <p class="lead">Централизованная экосистема для работы с тендерами, закупками и финансовыми инструментами Казахстана.</p>
-        </div>
-    </div>
-
     <div class="container">
-        <!-- Поиск лотов -->
-        <div class="card p-4">
-            <h3><i class="fa-solid fa-magnifying-glass text-primary"></i> Поиск лотов</h3>
-            <div class="row g-3 mt-2">
-                <div class="col-md-8">
-                    <input type="text" class="form-control" placeholder="Поиск (медицина, бумага, IT, ФСМС)..." id="searchInput">
-                </div>
-                <div class="col-md-4">
-                    <select class="form-select" id="regionSelect">
-                        <option value="all">🇰🇿 Весь Казахстан</option>
-                        <option value="astana">г. Астана</option>
-                        <option value="almaty">г. Алматы</option>
-                        <option value="shymkent">г. Шымкент</option>
-                        <option value="abay">Абайская область</option>
-                        <option value="akmola">Акмолинская область</option>
-                        <option value="aktobe">Актюбинская область</option>
-                        <option value="almaty_reg">Алматинская область</option>
-                        <option value="atyrau">Атырауская область</option>
-                        <option value="east_kz">Восточно-Казахстанская область</option>
-                        <option value="zhambyl">Жамбылская область</option>
-                        <option value="jetisu">Жетысуская область</option>
-                        <option value="west_kz">Западно-Казахстанская область</option>
-                        <option value="karaganda">Карагандинская область</option>
-                        <option value="kostanay">Костанайская область</option>
-                        <option value="kyzylorda">Кызылординская область</option>
-                        <option value="mangystau">Мангистауская область</option>
-                        <option value="pavlodar">Павлодарская область</option>
-                        <option value="north_kz">Северо-Казахстанская область</option>
-                        <option value="turkistan">Туркестанская область</option>
-                        <option value="ulytau">Улытауская область</option>
-                    </select>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary w-100" id="searchBtn">Найти</button>
-                </div>
-            </div>
-            <div id="searchResults" class="mt-3 text-muted">По вашему запросу ничего не найдено в базе. Воспользуйтесь официальными площадками ниже для прямого поиска.</div>
+        <h1>Kzzakupbot Hub — Калькулятор импорта и себестоимости</h1>
+        
+        <div id="calc-error-banner" class="error-banner" style="display: none;">
+            ⚠️ Заполните обязательные поля корректными положительными значениями.
         </div>
 
-        <!-- Калькулятор -->
-        <div class="card p-4">
-            <h3><i class="fa-solid fa-calculator text-primary"></i> Универсальный калькулятор себестоимости и прибыли (2026)</h3>
-            <div class="row g-3 mt-2">
-                <div class="col-md-4">
-                    <label class="form-label">Количество товара</label>
-                    <input type="number" class="form-control" id="calcQty" value="100">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Цена за ед. закупки</label>
-                    <input type="number" class="form-control" id="calcPrice" value="10">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Валюта закупки</label>
-                    <select class="form-select" id="calcCurrency">
-                        <option value="USD">USD — Доллар США</option>
-                        <option value="EUR">EUR — Евро</option>
-                        <option value="RUB">RUB — Российский рубль</option>
-                        <option value="CNY">CNY — Китайский юань</option>
-                        <option value="KZT">KZT — Казахстанский тенге</option>
-                        <option value="GBP">GBP — Британский фунт</option>
-                        <option value="TRY">TRY — Турецкая лира</option>
-                        <option value="AED">AED — Дирхам ОАЭ</option>
-                    </select>
-                </div>
-                
-                <div class="col-md-6">
-                    <label class="form-label">Курс к KZT</label>
-                    <input type="number" class="form-control" id="calcRate" value="480">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Локальная доставка по РК (₸)</label>
-                    <input type="number" class="form-control" id="calcLocalDelivery" value="5000">
-                </div>
-
-                <div class="col-12 mt-4">
-                    <div class="result-box">
-                        <h5>Результаты расчета:</h5>
-                        <p class="mb-1"><strong>Себестоимость партии (COGS):</strong> <span id="resCOGS">0</span> ₸</p>
-                        <p class="mb-1"><strong>Себестоимость за ед.:</strong> <span id="resUnitCOGS">0</span> ₸</p>
-                    </div>
-                </div>
+        <form id="calculator-form">
+            <div class="form-group">
+                <label for="quantity">Количество единиц:</label>
+                <input type="number" id="quantity" value="100" min="1" required>
             </div>
-        </div>
 
-        <!-- Официальные площадки -->
-        <div class="card p-4">
-            <h3><i class="fa-solid fa-globe text-primary"></i> Официальные площадки и веб-порталы закупок РК</h3>
-            <div class="row row-cols-2 row-cols-md-4 g-3 mt-2 text-center">
-                <div class="col"><a href="https://goszakup.gov.kz" target="_blank" class="btn btn-outline-primary w-100 p-3">ГОСЗАКУПКИ РК<br><small>Госбюджет</small></a></div>
-                <div class="col"><a href="https://sk.kz" target="_blank" class="btn btn-outline-primary w-100 p-3">SAMRUK-KAZYNA<br><small>Фонд</small></a></div>
-                <div class="col"><a href="https://skmed.kz" target="_blank" class="btn btn-outline-primary w-100 p-3">СК-ФАРМАЦИЯ<br><small>Медицина</small></a></div>
-                <div class="col"><a href="https://fms.kz" target="_blank" class="btn btn-outline-primary w-100 p-3">ФОНД МЕДСТРАХОВАНИЯ<br><small>ФСМС</small></a></div>
+            <div class="form-group">
+                <label for="price">Закупочная цена за единицу:</label>
+                <input type="number" id="price" value="10" step="0.01" min="0" required>
             </div>
+
+            <div class="form-group">
+                <label for="currency">Валюта:</label>
+                <select id="currency">
+                    <option value="KZT">KZT — Казахстанский тенге</option>
+                    <option value="USD" selected>USD — Доллар США</option>
+                    <option value="CNY">CNY — Китайский юань</option>
+                    <option value="KGS">KGS — Киргизский сом</option>
+                    <option value="UZS">UZS — Узбекский сум</option>
+                    <option value="RUB">RUB — Российский рубль</option>
+                    <option value="TRY">TRY — Турецкая лира</option>
+                    <option value="AED">AED — Дирхам ОАЭ</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="rate">Курс валюты к KZT (ручной ввод):</label>
+                <input type="number" id="rate" value="480" step="0.01" min="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="intShipping">Международная доставка (₸):</label>
+                <input type="number" id="intShipping" value="18000" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="dutyRate">Таможенная пошлина (%):</label>
+                <input type="number" id="dutyRate" value="10" step="0.1" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="customsFees">Таможенные сборы (₸):</label>
+                <input type="number" id="customsFees" value="20000" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="localShipping">Местная доставка (₸):</label>
+                <input type="number" id="localShipping" value="5000" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="broker">Услуги брокера (₸):</label>
+                <input type="number" id="broker" value="15000" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="docs">Документы / Сертификация (₸):</label>
+                <input type="number" id="docs" value="10000" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="sellingPrice">Условная цена продажи за единицу (₸):</label>
+                <input type="number" id="sellingPrice" value="8500" step="0.01" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="region">Регион Казахстана:</label>
+                <select id="region">
+                    <option value="all">Весь Казахстан</option>
+                    <option value="astana">г. Астана</option>
+                    <option value="almaty">г. Алматы</option>
+                    <option value="shymkent">г. Шымкент</option>
+                    <option value="abay">Абайская область</option>
+                    <option value="akmola">Акмолинская область</option>
+                    <option value="aktobe">Актюбинская область</option>
+                    <option value="almaty_reg">Алматинская область</option>
+                    <option value="atyrau">Атырауская область</option>
+                    <option value="east_kz">Восточно-Казахстанская область</option>
+                    <option value="zhambyl">Жамбылская область</option>
+                    <option value="jetysu">Жетысуская область</option>
+                    <option value="west_kz">Западно-Казахстанская область</option>
+                    <option value="karaganda">Карагандинская область</option>
+                    <option value="kostanay">Костанайская область</option>
+                    <option value="kyzylorda">Кызылординская область</option>
+                    <option value="mangystau">Мангистауская область</option>
+                    <option value="pavlodar">Павлодарская область</option>
+                    <option value="north_kz">Северо-Казахстанская область</option>
+                    <option value="turkistan">Туркестанская область</option>
+                    <option value="ulytau">Улытауская область</option>
+                </select>
+            </div>
+        </form>
+
+        <div class="results-panel">
+            <h2>Результаты расчёта</h2>
+            <div class="result-row"><span>Закупка (в тенге):</span> <strong id="res-purchase">—</strong></div>
+            <div class="result-row"><span>Таможенная пошлина:</span> <strong id="res-duty">—</strong></div>
+            <div class="result-row"><span>Условный импортный НДС (16%):</span> <strong id="res-vat">—</strong></div>
+            <div class="result-row"><span>Себестоимость партии:</span> <strong id="res-total">—</strong></div>
+            <div class="result-row"><span>Себестоимость единицы:</span> <strong id="res-unit">—</strong></div>
+            <div class="result-row"><span>Выручка:</span> <strong id="res-revenue">—</strong></div>
+            <div class="result-row"><span>Маржа до налогов:</span> <strong id="res-margin">—</strong></div>
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='calculator.js') }}"></script>
-    <script src="{{ url_for('static', filename='calculator-ui.js') }}"></script>
+    <script src="/static/calculator.js"></script>
+    <script src="/static/calculator-ui.js"></script>
 </body>
 </html>
