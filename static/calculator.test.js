@@ -38,3 +38,20 @@ test('Input Validation: Empty & Negative values handling', () => {
     assert.strictEqual(res.valid, false);
 });
 
+test('Exchange Rate Validation: Zero or negative rate blocking', () => {
+    const zeroRateInputs = {
+        quantity: 100,
+        price: 10,
+        rate: 0
+    };
+    const resZero = calculateParty(zeroRateInputs);
+    assert.strictEqual(resZero.valid, false);
+
+    const negativeRateInputs = {
+        quantity: 100,
+        price: 10,
+        rate: -480
+    };
+    const resNeg = calculateParty(negativeRateInputs);
+    assert.strictEqual(resNeg.valid, false);
+});
