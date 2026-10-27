@@ -1,138 +1,34 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kzzakupbot Hub — Калькулятор и тендеры</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Kzzakupbot Hub — Калькулятор импорта и себестоимости</h1>
-        
-        <div id="calc-error-banner" class="error-banner" style="display: none;">
-            ⚠️ Проверьте правильность заполнения полей: курс валюты должен быть больше нуля, а обязательные поля заполнены.
-        </div>
+<select id="currency">
+    <option value="KZT">KZT — Казахстанский тенге</option>
+    <option value="USD" selected>USD — Доллар США</option>
+    <option value="CNY">CNY — Китайский юань</option>
+    <option value="KGS">KGS — Киргизский сом</option>
+    <option value="UZS">UZS — Узбекский сум</option>
+    <option value="RUB">RUB — Российский рубль</option>
+    <option value="TRY">TRY — Турецкая лира</option>
+    <option value="AED">AED — Дирхам ОАЭ</option>
+</select>
 
-        <form id="calculator-form">
-            <div class="form-group">
-                <label for="quantity">Количество единиц:</label>
-                <input type="number" id="quantity" value="100" min="1" required>
-            </div>
-
-            <div class="form-group">
-                <label for="price">Закупочная цена за единицу:</label>
-                <input type="number" id="price" value="10" step="0.01" min="0" required>
-            </div>
-
-            <div class="form-group">
-                <label for="currency">Валюта закупки:</label>
-                <select id="currency">
-                    <option value="KZT">KZT — Казахстанский тенге</option>
-                    <option value="USD" selected>USD — Доллар США</option>
-                    <option value="CNY">CNY — Китайский юань</option>
-                    <option value="KGS">KGS — Киргизский сом</option>
-                    <option value="UZS">UZS — Узбекский сум</option>
-                    <option value="RUB">RUB — Российский рубль</option>
-                    <option value="TRY">TRY — Турецкая лира</option>
-                    <option value="AED">AED — Дирхам ОАЭ</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="rate">Курс валюты к KZT (ручной ввод):</label>
-                <input type="number" id="rate" value="480" step="0.01" min="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label for="intShipping">Международная доставка (₸):</label>
-                <input type="number" id="intShipping" value="18000" min="0">
-            </div>
-
-            <div class="form-group">
-                <label for="dutyRate">Таможенная пошлина (%):</label>
-                <input type="number" id="dutyRate" value="10" step="0.1" min="0">
-            </div>
-
-            <div class="form-group">
-                <label for="customsFees">Таможенные сборы (₸):</label>
-                <input type="number" id="customsFees" value="20000" min="0">
-            </div>
-
-            <div class="form-group">
-                <label for="localShipping">Местная доставка (₸):</label>
-                <input type="number" id="localShipping" value="5000" min="0">
-            </div>
-
-            <div class="form-group">
-                <label for="broker">Услуги брокера (₸):</label>
-                <input type="number" id="broker" value="15000" min="0">
-            </div>
-
-            <div class="form-group">
-                <label for="docs">Документы / Сертификация (₸):</label>
-                <input type="number" id="docs" value="10000" min="0">
-            </div>
-
-            <div class="form-group">
-                <label for="sellingPrice">Условная цена продажи за единицу (₸):</label>
-                <input type="number" id="sellingPrice" value="8500" step="0.01" min="0">
-            </div>
-
-            <div class="form-group">
-                <label for="region">Регион поиска / поставок:</label>
-                <select id="region">
-                    <option value="all">Весь Казахстан</option>
-                    <option value="astana">г. Астана</option>
-                    <option value="almaty">г. Алматы</option>
-                    <option value="shymkent">г. Шымкент</option>
-                    <option value="abay">Область Абай</option>
-                    <option value="akmola">Акмолинская область</option>
-                    <option value="aktobe">Актюбинская область</option>
-                    <option value="almaty_reg">Алматинская область</option>
-                    <option value="atyrau">Aтырауская область</option>
-                    <option value="west_kz">Западно-Казахстанская область</option>
-                    <option value="zhambyl">Жамбылская область</option>
-                    <option value="jetysu">Область Жетісу</option>
-                    <option value="karaganda">Карагандинская область</option>
-                    <option value="kostanay">Костанайская область</option>
-                    <option value="kyzylorda">Кызылординская область</option>
-                    <option value="mangystau">Мангистауская область</option>
-                    <option value="pavlodar">Павлодарская область</option>
-                    <option value="north_kz">Северо-Казахстанская область</option>
-                    <option value="turkistan">Туркестанская область</option>
-                    <option value="ulytau">Область Ұлытау</option>
-                    <option value="east_kz">Восточно-Казахстанская область</option>
-                </select>
-            </div>
-        </form>
-
-        <div class="results-panel">
-            <h2>Результаты расчёта</h2>
-            <div class="result-row"><span>Закупка (в тенге):</span> <strong id="res-purchase">—</strong></div>
-            <div class="result-row"><span>Таможенная пошлина:</span> <strong id="res-duty">—</strong></div>
-            <div class="result-row"><span>Условный импортный НДС (16%):</span> <strong id="res-vat">—</strong></div>
-            <div class="result-row"><span>Себестоимость партии:</span> <strong id="res-total">—</strong></div>
-            <div class="result-row"><span>Себестоимость единицы:</span> <strong id="res-unit">—</strong></div>
-            <div class="result-row"><span>Выручка:</span> <strong id="res-revenue">—</strong></div>
-            <div class="result-row"><span>Маржа до налогов:</span> <strong id="res-margin">—</strong></div>
-        </div>
-
-        <div class="tender-links-section" style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-            <h3>🌐 Официальные площадки тендеров и закупок</h3>
-            <ul>
-                <li><a href="https://goszakup.gov.kz/" target="_blank">Государственные закупки РК</a></li>
-                <li><a href="https://procurement.gov.kz/ru" target="_blank">Единая платформа закупок</a></li>
-                <li><a href="https://zakup.sk.kz/" target="_blank">Самрук-Қазына</a></li>
-                <li><a href="https://sk-pharmacy.ecc.kz/ru" target="_blank">СК-Фармация</a></li>
-                <li><a href="https://fms.ecc.kz/ru" target="_blank">Закупки медицинских услуг (ФСМС)</a></li>
-                <li><a href="https://mitwork.kz/" target="_blank">MITWORK</a></li>
-                <li><a href="https://caspytender.kz/" target="_blank">Caspytender</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <script src="/static/calculator.js"></script>
-    <script src="/static/calculator-ui.js"></script>
-</body>
-</html>
+<select id="region">
+    <option value="all">Весь Казахстан</option>
+    <option value="astana">г. Астана</option>
+    <option value="almaty">г. Алматы</option>
+    <option value="shymkent">г. Шымкент</option>
+    <option value="abay">Область Абай</option>
+    <option value="akmola">Акмолинская область</option>
+    <option value="aktobe">Актюбинская область</option>
+    <option value="almaty_reg">Алматинская область</option>
+    <option value="atyrau">Aтырауская область</option>
+    <option value="west_kz">Западно-Казахстанская область</option>
+    <option value="zhambyl">Жамбылская область</option>
+    <option value="jetysu">Область Жетісу</option>
+    <option value="karaganda">Карагандинская область</option>
+    <option value="kostanay">Костанайская область</option>
+    <option value="kyzylorda">Кызылординская область</option>
+    <option value="mangystau">Мангистауская область</option>
+    <option value="pavlodar">Павлодарская область</option>
+    <option value="north_kz">Северо-Казахстанская область</option>
+    <option value="turkistan">Туркестанская область</option>
+    <option value="ulytau">Область Ұлытау</option>
+    <option value="east_kz">Восточно-Казахстанская область</option>
+</select>
