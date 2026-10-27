@@ -1,6 +1,2 @@
-Flask
-gunicorn
-requests
-beautifulsoup4
-pyTelegramBotAPI
-
+Flask==3.0.2
+Werkzeug==3.0.1
