@@ -6,7 +6,7 @@ function calculateParty(inputs) {
     const price = parseFloat(inputs.price);
     const rate = parseFloat(inputs.rate);
     
-    // Строгая валидация обязательных полей и защита от нулевого/отрицательного курса
+    // Строгая валидация: количество и курс должны быть строго больше 0
     if (isNaN(qty) || qty <= 0 || isNaN(price) || price < 0 || isNaN(rate) || rate <= 0) {
         return { error: "Invalid parameters: quantity and rate must be > 0", valid: false };
     }
@@ -28,8 +28,6 @@ function calculateParty(inputs) {
     const broker = Math.max(0, parseFloat(inputs.broker) || 0);
     const docs = Math.max(0, parseFloat(inputs.docs) || 0);
     
-    const otherExpenses = localShipping + customsFees + broker + docs;
-    
     // Итоговая себестоимость (учитывает таможенные сборы ровно 1 раз)
     const totalCost = purchaseBaseKZT + intShipping + duty + vat + localShipping + customsFees + broker + docs;
     
@@ -44,7 +42,7 @@ function calculateParty(inputs) {
         intShipping,
         duty,
         vat,
-        otherExpenses,
+        otherExpenses: localShipping + customsFees + broker + docs,
         totalCost,
         unitCost,
         revenue,
